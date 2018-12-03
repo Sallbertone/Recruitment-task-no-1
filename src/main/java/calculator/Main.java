@@ -1,6 +1,7 @@
 package calculator;
 
 import java.io.BufferedReader;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Main
@@ -11,20 +12,19 @@ public class Main
 
 		String path = "C://Users/Admin/Desktop/numbers.txt";
 
-		Reader reader = new Reader();
+		BufferedReader bufferedReader = Reader.checkFile(path);
+
+		List<String> lineList = Reader.readLines(bufferedReader);
 		
-		BufferedReader bufferedReader = reader.checkFile(path);
+		List<Instruction> instructions = InstructionReader.readInstructions(lineList);
 
-		List<String> lineList = reader.readLines(bufferedReader);
-		List<Instruction> instructions = reader.readInstructions(lineList);
-
-		double number = reader.getStartNumber(lineList);
+		BigDecimal number = InstructionReader.getStartNumber(lineList);
 
 		Calculator calculator = new Calculator(number);
 
 		instructions = calculator.prepareToCalculate(instructions);
 
-		double result = calculator.calculate(instructions);
+		BigDecimal result = calculator.calculate(instructions);
 
 		System.out.println(result);
 
